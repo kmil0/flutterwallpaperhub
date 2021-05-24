@@ -9,7 +9,7 @@ Widget brandName() {
         "Wallpaper",
         style: TextStyle(color: Colors.black),
       ),
-      Text("HUB", style: TextStyle(color: Colors.blue))
+      Text(" HUB", style: TextStyle(color: Colors.purpleAccent[700]))
     ],
   );
 }
@@ -29,8 +29,9 @@ Widget wallpapersList({List<WallpaperModel> wallpapers, context}) {
             child: Container(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.network(
-              e.src.portrait,
+            child: FadeInImage.assetNetwork(
+              placeholder: 'lib/assets/loading.gif',
+              image: e.src.portrait,
               fit: BoxFit.cover,
             ),
           ),

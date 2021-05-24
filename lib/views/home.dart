@@ -124,8 +124,9 @@ class CategoriesTile extends StatelessWidget {
         children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                imgUrl,
+              child: FadeInImage.assetNetwork(
+                placeholder: 'lib/assets/loading.gif',
+                image: imgUrl,
                 height: 50,
                 width: 100,
                 fit: BoxFit.cover,
