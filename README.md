@@ -2,7 +2,7 @@
 
 <img src="lib/assets/home.png" width="276" height="597"><img src="lib/assets/home.png" width="276" height="597"> <img src="lib/assets/home.png" width="276" height="597">
 
-by Sanskar
+by SanskarTiwari
 
 ## Getting Started
 
