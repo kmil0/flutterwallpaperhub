@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper/data/data.dart';
 import 'package:wallpaper/model/categories_model.dart';
 import 'package:wallpaper/model/wallpaper_model.dart';
+import 'package:wallpaper/views/categorie.dart';
 import 'package:wallpaper/views/search.dart';
 import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
@@ -78,7 +79,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => Search(
-                                        searcQuery: searchController.text,
+                                        searchQuery: searchController.text,
                                       )));
                         },
                         child: Container(child: Icon(Icons.search)))
@@ -118,34 +119,45 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 6),
-      child: Stack(
-        children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: FadeInImage.assetNetwork(
-                placeholder: 'lib/assets/loading.gif',
-                image: imgUrl,
-                height: 50,
-                width: 100,
-                fit: BoxFit.cover,
-              )),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.black26),
-            height: 50,
-            width: 100,
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15),
-            ),
-          )
-        ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Categorie(
+                      categorieName: title.toLowerCase(),
+                    )));
+      },
+      child: Container(
+        margin: EdgeInsets.only(right: 6),
+        child: Stack(
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'lib/assets/loading.gif',
+                  image: imgUrl,
+                  height: 50,
+                  width: 100,
+                  fit: BoxFit.cover,
+                )),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.black26),
+              height: 50,
+              width: 100,
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

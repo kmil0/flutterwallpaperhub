@@ -7,8 +7,8 @@ import 'package:wallpaper/widgets/widget.dart';
 import 'package:http/http.dart' as http;
 
 class Search extends StatefulWidget {
-  final String searcQuery;
-  Search({Key key, this.searcQuery}) : super(key: key);
+  final String searchQuery;
+  Search({Key key, this.searchQuery}) : super(key: key);
 
   @override
   _SearchState createState() => _SearchState();
@@ -16,14 +16,13 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   List<WallpaperModel> photos = [];
+  TextEditingController searchController = new TextEditingController();
 
-  getCategorieWallpaper() async {
+  getSearchWallpaper() async {
     await http.get(
         Uri.parse(
-            "https://api.pexels.com/v1/search?query=${widget.searcQuery}&per_page=30&page=1"),
+            "https://api.pexels.com/v1/search?query=${widget.searchQuery}&per_page=30&page=1"),
         headers: {"Authorization": apiKEY}).then((value) {
-      //print(value.body);
-
       Map<String, dynamic> jsonData = jsonDecode(value.body);
       jsonData["photos"].forEach((element) {
         //print(element);
@@ -39,8 +38,9 @@ class _SearchState extends State<Search> {
 
   @override
   void initState() {
-    getCategorieWallpaper();
+    getSearchWallpaper();
     super.initState();
+    searchController.text = widget.searchQuery;
   }
 
   @override
@@ -59,7 +59,46 @@ class _SearchState extends State<Search> {
         ],
       ),
       body: SingleChildScrollView(
-        child: wallpapersList(wallpapers: photos, context: context),
+        child: Container(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: Color(0xfff5f8fd),
+                    borderRadius: BorderRadius.circular(16)),
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                margin: EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                              hintText: "Search wallpapers",
+                              border: InputBorder.none)),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          if (searchController.text != "") {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Search(
+                                          searchQuery: searchController.text,
+                                        )));
+                          }
+                        },
+                        child: Container(child: Icon(Icons.search)))
+                  ],
+                ),
+              ),
+              SingleChildScrollView(
+                child: wallpapersList(wallpapers: photos, context: context),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
